@@ -14,17 +14,26 @@
 
 int main(void) {
 
+    
     DDRA = 0x00; PORTA = 0xFF; // Configure port A's 8 pins as inputs
-    DDRB = 0xFF; PORTB = 0x00; // Configure port B's 8 pins as outputs    
+    DDRB = 0xFF; PORTB = 0x00; // Configure port B's 8 pins as outputs, initialize to 0s
+    unsigned char tmpB = 0x00; // Temporary variable to hold the value of B
+    unsigned char tmpA = 0x00; // Temporary variable to hold the value of A
 
-    unsigned char temp_input = 0x00;
 
     /* Insert your solution below */
     while (1) {
     
-    	temp_input = PINA;
-	PORTB = temp_input;	// Writes port B's 8 pins with the values
+       tmpA = PINA & 0x01;
 
-    }
-    return 1;
+       if (tmpA == 0x01) { // True if PA0 is 1
+		tmpB = (tmpB & 0xFC) | 0X01;
+       }else {
+	
+	tmpB = (tmpB & 0xFC) | 0x02;
+       }
+
+	PORTB = tmpB;
+}
+    return 0;
 }
